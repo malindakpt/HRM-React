@@ -1,26 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.scss';
+import React from "react";
+import "./App.scss";
+import ***REMOVED*** BrowserRouter as Router, Route, Link, Switch ***REMOVED*** from "react-router-dom";
+import LoginComponent from "./components/login/login.component";
+import NavBarComponent from "./components/nav-bar/nav-bar.component";
 
 const App: React.FC = () => ***REMOVED***
   return (
     <div className="App">
-      <header className="App-header">
-        <img src=***REMOVED***logo***REMOVED*** className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Route path="/" component=***REMOVED***NavBarComponent***REMOVED*** />
+        <Route path="/login" component=***REMOVED***LoginComponent***REMOVED*** />
+      </Router>
     </div>
   );
-***REMOVED***
+***REMOVED***;
 
 export default App;

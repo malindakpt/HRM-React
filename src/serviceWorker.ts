@@ -20,10 +20,18 @@ const isLocalhost = Boolean(
     )
 );
 
-export function register(config) ***REMOVED***
+type Config = ***REMOVED***
+  onSuccess?: (registration: ServiceWorkerRegistration) => void;
+  onUpdate?: (registration: ServiceWorkerRegistration) => void;
+***REMOVED***;
+
+export function register(config?: Config) ***REMOVED***
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) ***REMOVED***
     // The URL constructor is available in all browsers that support SW.
-    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+    const publicUrl = new URL(
+      process.env.PUBLIC_URL,
+      window.location.href
+    );
     if (publicUrl.origin !== window.location.origin) ***REMOVED***
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
@@ -54,7 +62,7 @@ export function register(config) ***REMOVED***
   ***REMOVED***
 ***REMOVED***
 
-function registerValidSW(swUrl, config) ***REMOVED***
+function registerValidSW(swUrl: string, config?: Config) ***REMOVED***
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => ***REMOVED***
@@ -98,7 +106,7 @@ function registerValidSW(swUrl, config) ***REMOVED***
     ***REMOVED***);
 ***REMOVED***
 
-function checkValidServiceWorker(swUrl, config) ***REMOVED***
+function checkValidServiceWorker(swUrl: string, config?: Config) ***REMOVED***
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl, ***REMOVED***
     headers: ***REMOVED*** 'Service-Worker': 'script' ***REMOVED***

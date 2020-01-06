@@ -1,27 +1,27 @@
-
 import * as React from 'react';
-import ***REMOVED*** DataService ***REMOVED*** from '../DataService';
-import ***REMOVED*** Entities ***REMOVED*** from '../Entities/Entities';
-import ***REMOVED*** Leave ***REMOVED*** from '../Entities/Leave';
+import { DataService } from '../DataService';
+import { Entities } from '../Entities/Entities';
 import AppContext from '../Context/AppContext';
+import { User } from '../Entities/User';
 
-export interface UserState ***REMOVED***
+export interface UserState {
     name: string;
-***REMOVED***
-const HomeComponent: React.FC<UserState> = (props: UserState) => ***REMOVED***
+}
+const HomeComponent: React.FC<UserState> = (props: UserState) => {
     // console.log(props);
-    const l = new Leave(***REMOVED***id: 0***REMOVED***);
-    const dataService = new DataService();
+    const l = new User({name: 'Malinda K', userName: 'kumarsinghe@axinom.com', accountIdentifier: 'b75aed0a-2d70-4196-baaa-583dd46e52b1'});
+    console.log('pp',l);
+    const dataService = DataService.getInstance();
 
 
-    dataService.getEntity(Entities.Leave, ***REMOVED******REMOVED***, ***REMOVED******REMOVED***).then(dat => console.log(dat));
+    dataService.getEntity(Entities.User, {}, {}).then(dat => console.log(dat));
     return (<div>
         <AppContext.Consumer>
-            ***REMOVED***(context) => ***REMOVED***
-            return <button onClick=***REMOVED***() => dataService.saveEntity(Entities.Leave, l)***REMOVED*** >ADD News ***REMOVED***context.name***REMOVED***</button>
-            ***REMOVED******REMOVED***
+            {(context) => {
+            return <button onClick={() => dataService.saveEntity(Entities.User, l)} >ADD News {context.name}</button>
+            }}
         </AppContext.Consumer>     
     </div>);
-***REMOVED***
+}
 
 export default HomeComponent;

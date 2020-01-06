@@ -1,9 +1,9 @@
 // const firebase = require("firebase");
 import firebase from "firebase";
-import ***REMOVED*** Entities ***REMOVED*** from "./Entities/Entities";
-import ***REMOVED*** Entity ***REMOVED*** from "./Entities/Entity";
+import { Entities } from "./Entities/Entities";
+import { Entity } from "./Entities/Entity";
 
-const config = ***REMOVED***
+const config = {
   // apiKey: YOUR_API_KEY,
   // authDomain: YOUR_AUTH_DOMAIN,
   // databaseURL: YOUR_DATABASE_URL,
@@ -19,71 +19,81 @@ const config = ***REMOVED***
   messagingSenderId: "913528455228",
   appId: "1:913528455228:web:1488ca4f54c47182688339",
   measurementId: "G-CZGCVEBQ7X"
-***REMOVED***;
+};
 
-export class DataService ***REMOVED***
+export class DataService {
   public db: any;
+  private static instance: DataService;
 
-  constructor() ***REMOVED***
+  public static getInstance(): DataService {
+    if (!this.instance){
+      this.instance = new DataService();
+    }
+    return this.instance;
+  }
+
+  private constructor() {
     // this.application = admin.initializeApp(config);
     firebase.initializeApp(config);
     this.db = firebase.firestore();
     // console.log('Intialized', this.application);
-  ***REMOVED***
+  }
 
-  addEntity() ***REMOVED***
-    this.db
-      .collection("users")
-      .add(***REMOVED***
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815
-      ***REMOVED***)
-      .then(function(docRef: any) ***REMOVED***
-        console.log("Document written with ID: ", docRef.id);
-      ***REMOVED***)
-      .catch(function(error: any) ***REMOVED***
-        console.error("Error adding document: ", error);
-      ***REMOVED***);
-  ***REMOVED***
+  // addEntity() {
+  //   this.db
+  //     .collection("users")
+  //     .add({
+  //       first: "Ada",
+  //       last: "Lovelace",
+  //       born: 1815
+  //     })
+  //     .then(function(docRef: any) {
+  //       console.log("Document written with ID: ", docRef.id);
+  //     })
+  //     .catch(function(error: any) {
+  //       console.error("Error adding document: ", error);
+  //     });
+  // }
 
   public saveEntity(
     entityNme: Entities,
     entity: Entity,
     successMessage?: string
-  ): Promise<any> ***REMOVED***
+  ): Promise<any> {
+
+    console.log(entity);
     // Display network error message
-    const requestStatus = ***REMOVED*** isCompleted: false ***REMOVED***;
+    const requestStatus = { isCompleted: false };
     // this.startTimeoutToCheckDelay(requestStatus, "Saving " + entityNme);
 
     // Calls to firebase DB
     this.busyOn();
     const ref = this.db.collection(entityNme);
 
-    return new Promise((resolves, reject) => ***REMOVED***
+    return new Promise((resolves, reject) => {
       ref.add(JSON.parse(JSON.stringify(entity)))
-        .then(() => ***REMOVED***
+        .then(() => {
           this.busyOff();
-          if (successMessage) ***REMOVED***
+          if (successMessage) {
             alert(successMessage);
-          ***REMOVED***
+          }
           requestStatus.isCompleted = true;
           console.log("Document successfully written!");
           resolves();
-        ***REMOVED***)
-        .catch(error => ***REMOVED***
+        })
+        .catch(error => {
           this.busyOff();
           requestStatus.isCompleted = true;
           console.error("Error writing document: ", error);
           reject();
-        ***REMOVED***);
-    ***REMOVED***);
-  ***REMOVED***
+        });
+    });
+  }
 
   /**
    *
    * @param entityName
-   * @param conditions ***REMOVED***value: '>25'***REMOVED***, ***REMOVED***name: 'Malinda'***REMOVED***
+   * @param conditions {value: '>25'}, {name: 'Malinda'}
    * @param orderBy orderBy('population', 'desc'); orderBy('population', 'asc');
    * @param skipBusy
    */
@@ -92,71 +102,71 @@ export class DataService ***REMOVED***
     conditions: Object,
     orderBy: Object,
     skipBusy?: boolean
-  ): Promise<any> ***REMOVED***
+  ): Promise<any> {
     console.log("Requesting entity: " + entityName);
     // Display network error message
-    const requestStatus = ***REMOVED*** isCompleted: false ***REMOVED***;
+    const requestStatus = { isCompleted: false };
 
     // Calls to firebase DB
-    if (!skipBusy) ***REMOVED***
+    if (!skipBusy) {
       this.busyOn();
-    ***REMOVED***
-    return new Promise((resolves, reject) => ***REMOVED***
+    }
+    return new Promise((resolves, reject) => {
       // For future use of deletion of entity
       let query = this.db
         .collection(entityName);
 
-      Object.keys(conditions).forEach((key, index) => ***REMOVED***
+      Object.keys(conditions).forEach((key, index) => {
         if (
           typeof conditions[key] === "string" &&
           (conditions[key].includes(">") || conditions[key].includes("<"))
-        ) ***REMOVED***
+        ) {
           query = query.where(
             key,
             conditions[key].charAt(0),
             conditions[key].substring(1)
           );
-        ***REMOVED*** else if (key === "limit") ***REMOVED***
+        } else if (key === "limit") {
           query = query.limit(conditions[key]);
-        ***REMOVED*** else if (Array.isArray(conditions[key])) ***REMOVED***
+        } else if (Array.isArray(conditions[key])) {
           query = query.where(key, "array-contains", conditions[key][0]);
-        ***REMOVED*** else ***REMOVED***
+        } else {
           query = query.where(key, "==", conditions[key]);
-        ***REMOVED***
-      ***REMOVED***);
+        }
+      });
 
-      Object.keys(orderBy).forEach((key, index) => ***REMOVED***
+      Object.keys(orderBy).forEach((key, index) => {
         query = query.orderBy(key, orderBy[key]);
-      ***REMOVED***);
+      });
 
       const results = [];
       query
         .get()
-        .then(querySnapshot => ***REMOVED***
-          querySnapshot.forEach((doc: any) => ***REMOVED***
+        .then(querySnapshot => {
+          querySnapshot.forEach((doc: any) => {
             const v = doc.data();
             v.id = doc.id;
             results.push(v);
-          ***REMOVED***);
+          });
           this.busyOff();
           requestStatus.isCompleted = true;
           resolves(results);
-        ***REMOVED***)
-        .catch(error => ***REMOVED***
+        })
+        .catch(error => {
           requestStatus.isCompleted = true;
           console.log("Error getting documents: ", error);
           this.busyOff();
           resolves(null);
-        ***REMOVED***);
-    ***REMOVED***);
-  ***REMOVED***
+        });
+    });
+  }
 
   
-  public busyOn(): void ***REMOVED***
+  public busyOn(): void {
     // document.getElementById("overlay").style.display = "block";
-  ***REMOVED***
+  }
 
-  public busyOff(): void ***REMOVED***
+  public busyOff(): void {
     // document.getElementById("overlay").style.display = "none";
-  ***REMOVED***
-***REMOVED***
+  }
+}

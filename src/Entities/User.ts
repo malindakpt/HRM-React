@@ -1,7 +1,15 @@
-import ***REMOVED*** Entity ***REMOVED*** from "./Entity";
+import { Entity } from "./Entity";
 
-export class User extends Entity ***REMOVED***
+export class User extends Entity {
+    public accountIdentifier: string;
     public userName: string;
     public name: number;
-    public accountIdentifier: number;
-***REMOVED***
+
+    public annualCount: number;
+    public casualCount: number;
+    public medicalCount: number;
+
+    constructor(obj: any) {   
+        super(obj);
+    }
+}

@@ -1,4 +1,5 @@
-export enum Entities ***REMOVED***
+export enum Entities {
     Leave = 'Leave',
-    LeavePlan = 'LeavePlan'
-***REMOVED***
+    User = 'User',
+    Claim = 'Claim'
+}

@@ -1,11 +1,15 @@
-import ***REMOVED*** Entity ***REMOVED*** from "./Entity";
+import { Entity } from "./Entity";
 
-export enum LeaveType ***REMOVED***
+export enum LeaveType {
     CASUAL, MEDICAL, ANNUAL, NOPAY
-***REMOVED***
+}
 
-export class Leave extends Entity ***REMOVED***
+export class Leave extends Entity {
     public userId: string;
     public date: Date;
     public type: LeaveType
-***REMOVED***
+
+    constructor(obj: any) {   
+        super(obj);
+    }
+}

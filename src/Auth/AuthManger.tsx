@@ -1,39 +1,39 @@
 import * as React from 'react';
-import ***REMOVED*** Component ***REMOVED*** from 'react';
-import AzureAD, ***REMOVED*** AuthenticationState ***REMOVED*** from 'react-aad-msal';
-import ***REMOVED*** authProvider ***REMOVED*** from '../AuthProvider';
-import HomeComponent from '../components/homeComponent';
+import { Component } from 'react';
+import AzureAD, { AuthenticationState } from 'react-aad-msal';
+import { authProvider } from '../AuthProvider';
+import HomeComponent from '../Components/HomeComponent';
 
-export class AuthManagerComponent extends  Component ***REMOVED***
-    render() ***REMOVED***
-        return <AzureAD provider=***REMOVED***authProvider***REMOVED*** forceLogin=***REMOVED***true***REMOVED***>
-        ***REMOVED***
-            (props: any) => ***REMOVED***
+export class AuthManagerComponent extends  Component {
+    render() {
+        return <AzureAD provider={authProvider} forceLogin={true}>
+        {
+            (props: any) => {
               console.log(props);
-              switch (props.authenticationState) ***REMOVED***
+              switch (props.authenticationState) {
                 case AuthenticationState.Authenticated:
                   return (
-                    <HomeComponent name = ***REMOVED***props.accountInfo.account.name***REMOVED***/>
+                    <HomeComponent name = {props.accountInfo.account.name}/>
                     // <p>
-                    //   <span>Welcome, ***REMOVED***props.accountInfo.account.name***REMOVED***!</span>
-                    //   <button onClick=***REMOVED***props.logout***REMOVED***>Logout</button>
+                    //   <span>Welcome, {props.accountInfo.account.name}!</span>
+                    //   <button onClick={props.logout}>Logout</button>
                     // </p>
                   );
                 case AuthenticationState.Unauthenticated:
                   return (
                     <div>
-                      ***REMOVED***props.error && <p><span>An error occured during authentication, please try again!</span></p>***REMOVED***
+                      {props.error && <p><span>An error occured during authentication, please try again!</span></p>}
                       <p>
                         <span>Hey stranger, you look new!</span>
-                        <button onClick=***REMOVED***props.login***REMOVED***>Login</button>
+                        <button onClick={props.login}>Login</button>
                       </p>
                     </div>
                   );
                 case AuthenticationState.InProgress:
                   return (<p>Authenticating...</p>);
-              ***REMOVED***
-            ***REMOVED***
-          ***REMOVED***
+              }
+            }
+          }
         </AzureAD>;
-    ***REMOVED***
-***REMOVED***
+    }
+}

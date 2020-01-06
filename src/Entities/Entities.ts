@@ -1,4 +1,5 @@
 export enum Entities {
     Leave = 'Leave',
-    LeavePlan = 'LeavePlan'
+    User = 'User',
+    Claim = 'Claim'
 }

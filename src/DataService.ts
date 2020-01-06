@@ -23,35 +23,45 @@ const config = {
 
 export class DataService {
   public db: any;
+  private static instance: DataService;
 
-  constructor() {
+  public static getInstance(): DataService {
+    if (!this.instance){
+      this.instance = new DataService();
+    }
+    return this.instance;
+  }
+
+  private constructor() {
     // this.application = admin.initializeApp(config);
     firebase.initializeApp(config);
     this.db = firebase.firestore();
     // console.log('Intialized', this.application);
   }
 
-  addEntity() {
-    this.db
-      .collection("users")
-      .add({
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815
-      })
-      .then(function(docRef: any) {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error: any) {
-        console.error("Error adding document: ", error);
-      });
-  }
+  // addEntity() {
+  //   this.db
+  //     .collection("users")
+  //     .add({
+  //       first: "Ada",
+  //       last: "Lovelace",
+  //       born: 1815
+  //     })
+  //     .then(function(docRef: any) {
+  //       console.log("Document written with ID: ", docRef.id);
+  //     })
+  //     .catch(function(error: any) {
+  //       console.error("Error adding document: ", error);
+  //     });
+  // }
 
   public saveEntity(
     entityNme: Entities,
     entity: Entity,
     successMessage?: string
   ): Promise<any> {
+
+    console.log(entity);
     // Display network error message
     const requestStatus = { isCompleted: false };
     // this.startTimeoutToCheckDelay(requestStatus, "Saving " + entityNme);

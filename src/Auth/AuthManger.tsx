@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import AzureAD, { AuthenticationState } from 'react-aad-msal';
 import { authProvider } from '../AuthProvider';
-import HomeComponent from '../components/homeComponent';
+import HomeComponent from '../Components/HomeComponent';
 
 export class AuthManagerComponent extends  Component {
     render() {

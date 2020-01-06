@@ -1,18 +1,17 @@
-import React from "react";
-import "./App.scss";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import LoginComponent from "./components/login/login.component";
-import NavBarComponent from "./components/nav-bar/nav-bar.component";
+import React from 'react';
+import { AuthManagerComponent } from './Auth/AuthManger';
+import AppContext from './Context/AppContext';
+// import logo from './logo.svg';
+
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Router>
-        <Route path="/" component={NavBarComponent} />
-        <Route path="/login" component={LoginComponent} />
-      </Router>
+      <AppContext.Provider value={{isLoggedIn: false, name: 'Malinda'}}>
+      <AuthManagerComponent />
+      </AppContext.Provider>
     </div>
   );
-};
+}
 
 export default App;
